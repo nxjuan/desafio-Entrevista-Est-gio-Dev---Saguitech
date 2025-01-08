@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nota Fiscal de Serviço</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input[type="text"], input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      margin-bottom: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Nota Fiscal de Serviço</h1>
+    <form id="invoiceForm">
+      <div class="form-group">
+        <label for="value">Valor da Venda:</label>
+        <input type="number" id="value" placeholder="Digite o valor da venda" required>
+      </div>
+
+      <div class="form-group">
+        <label for="items">Itens Vendidos:</label>
+        <input type="text" id="items" placeholder="Digite os itens vendidos" required>
+      </div>
+
+      <div class="form-group">
+        <label for="irpf">Porcentagem do IRPF (%):</label>
+        <input type="number" id="irpf" placeholder="Ex: 5" required>
+      </div>
+
+      <div class="form-group">
+        <label for="pis">Porcentagem do PIS (%):</label>
+        <input type="number" id="pis" placeholder="Ex: 1.5" required>
+      </div>
+
+      <div class="form-group">
+        <label for="cofins">Porcentagem do COFINS (%):</label>
+        <input type="number" id="cofins" placeholder="Ex: 3" required>
+      </div>
+
+      <div class="form-group">
+        <label for="inss">Porcentagem do INSS (%):</label>
+        <input type="number" id="inss" placeholder="Ex: 8" required>
+      </div>
+
+      <div class="form-group">
+        <label for="issqn">Porcentagem do ISSQN (%):</label>
+        <input type="number" id="issqn" placeholder="Ex: 2" required>
+      </div>
+
+      <button type="button" onclick="generateInvoice()">Gerar Nota Fiscal</button>
+    </form>
+
+    <div id="result" class="result" style="display: none;">
+      <h2>Nota Fiscal</h2>
+      <p><strong>Itens Vendidos:</strong> <span id="resultItems"></span></p>
+      <p><strong>Valor Total:</strong> R$ <span id="resultValue"></span></p>
+      <p><strong>Impostos:</strong></p>
+      <ul>
+        <li>IRPF: R$ <span id="resultIrpf"></span></li>
+        <li>PIS: R$ <span id="resultPis"></span></li>
+        <li>COFINS: R$ <span id="resultCofins"></span></li>
+        <li>INSS: R$ <span id="resultInss"></span></li>
+        <li>ISSQN: R$ <span id="resultIssqn"></span></li>
+      </ul>
+      <p><strong>Valor Total dos Impostos:</strong> R$ <span id="totalTaxes"></span></p>
+    </div>
+  </div>
+
+  <script>
+    function generateInvoice() {
+      
+      const value = parseFloat(document.getElementById('value').value);
+      const items = document.getElementById('items').value;
+      const irpf = parseFloat(document.getElementById('irpf').value) / 100;
+      const pis = parseFloat(document.getElementById('pis').value) / 100;
+      const cofins = parseFloat(document.getElementById('cofins').value) / 100;
+      const inss = parseFloat(document.getElementById('inss').value) / 100;
+      const issqn = parseFloat(document.getElementById('issqn').value) / 100;
+
+      
+      const irpfValue = value * irpf;
+      const pisValue = value * pis;
+      const cofinsValue = value * cofins;
+      const inssValue = value * inss;
+      const issqnValue = value * issqn;
+      const totalTaxes = irpfValue + pisValue + cofinsValue + inssValue + issqnValue;
+
+      
+      document.getElementById('resultItems').innerText = items;
+      document.getElementById('resultValue').innerText = value.toFixed(2);
+      document.getElementById('resultIrpf').innerText = irpfValue.toFixed(2);
+      document.getElementById('resultPis').innerText = pisValue.toFixed(2);
+      document.getElementById('resultCofins').innerText = cofinsValue.toFixed(2);
+      document.getElementById('resultInss').innerText = inssValue.toFixed(2);
+      document.getElementById('resultIssqn').innerText = issqnValue.toFixed(2);
+      document.getElementById('totalTaxes').innerText = totalTaxes.toFixed(2);
+
+      
+      document.getElementById('result').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
